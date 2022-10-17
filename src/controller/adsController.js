@@ -88,7 +88,7 @@ const getAllProduct = async (req, res) => {
 
             result = [...getAds, ...getCompany];
         }
-        
+
         res.status(200).send({ status: true, data: result });
 
     } catch (error) {
@@ -96,5 +96,6 @@ const getAllProduct = async (req, res) => {
         res.status(400).send({ status: false, message: error.message });
     }
 }
+
 
 module.exports = { createAd, getAllProduct };

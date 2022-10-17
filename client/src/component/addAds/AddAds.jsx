@@ -70,7 +70,7 @@ export default function AddAds() {
                         style={{ fontSize: '18px', fontWeight: 'bold' }}
                     >
                         Important : <br />
-                        1.) Image url must be a google drive image link. <br />
+                        1.) Image url must be a valid image link. <br />
                     </DialogContentText>
                     <div style={{
                         display: 'flex', flexDirection: 'column', justifyContent: 'space-around', gap: '0.5rem',
