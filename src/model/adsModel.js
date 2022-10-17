@@ -7,7 +7,7 @@ const adsSchema = new mongoose.Schema({
     headline: { type: String },
     description: { type: String },
     CTA: { type: String, uppercase: true, required: [true, "CTA is mandatory"] },
-    imageUrl: { type: String },
+    imageUrl: { type: String, required: [true, "google drive image link is mandatory"] },
 }, { timestamps: true });
 
 adsSchema.index({ "$**": "text" })

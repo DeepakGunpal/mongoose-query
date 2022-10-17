@@ -10,7 +10,6 @@ function App() {
   const [text, setText] = useState('');
   const getAds = async (query) => {
     const adsData = await axiosInstance.get(`/getAllAds?input=${query}`);
-    console.log('running')
     setAdsList(adsData.data.data);
   }
 
@@ -18,15 +17,17 @@ function App() {
     setText(event.target.value);
   }
 
-  const getIdFromUrl = (url) => {
-    if (url) return url.match(/[-\w]{25,}/);
-  }
+  // const getIdFromUrl = (url) => {
+  //   // console.log('url image',url.match(/[-\w]{25,}/)[0])
+  //   if (url) return url.match(/[-\w]{25,}/)[0];
+  // }
+
+  // if (adsList && adsList[0].imageUrl) console.log("image return", getIdFromUrl(adsList[0].imageUrl));
 
   useEffect(() => {
     getAds(text);
   }, [text])
 
-  console.log(text, adsList);
   return (
     <div className="App">
       <div className='header_container'>
@@ -40,7 +41,9 @@ function App() {
           adsList && adsList.map(list => {
             return <div key={list._id}>
               <h4>{list.primaryText}</h4>
-              <img src={`https://drive.google.com/uc?export=view&id=${getIdFromUrl(list.imageUrl)}`} alt={list.CTA} />
+              {
+                list.imageUrl && <img src={list.imageUrl} alt={list.CTA} />
+              }
               <p>"{list.headline}"</p>
               <h2>{list.company.name}</h2>
               <Button variant='outlined' style={{ backgroundColor: 'green', color: 'white' }}><b>{list.CTA}</b></Button>
