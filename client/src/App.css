@@ -1,0 +1,86 @@
+.App{
+    width: 100vw;
+    background-color: beige;
+    height: 100vh;
+    overflow: scroll;
+    text-transform: capitalize;
+    align-items: center;
+}
+
+.ads_box_container{
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    justify-items: center;
+    align-items: flex-start;
+    width: 99%;
+    margin: 10px 5px;
+    gap: 1rem;
+}
+
+.ads_box_container img{
+    width: 17rem;
+    height: 17rem;
+    border-radius: 10px;
+}
+
+.ads_box_container > div{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: larger;
+    border: 1px solid black;
+    border-radius: 15px;
+    text-align: center;
+}
+
+.ads_box_container > div > p{
+    width: 70%;
+}
+
+.ads_box_container > div > h4{
+    width: 70%;    
+}
+
+.header_container{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 1rem;
+    width: 90vw;
+    margin-left: 35px;
+}
+
+/* ==========Media  Queries (medium devices) =============*/
+
+@media screen and (max-width: 1024px) {
+    .ads_box_container{
+        grid-template-columns: repeat(2,1fr);
+        width: 97%;
+        margin: 10px 8px;
+        gap: 1rem;
+    }
+    .header_container{
+        width: 95vw;
+        margin-left: 25px;
+    }
+
+}
+
+/* ==========Media  Queries (small devices) =============*/
+
+@media screen and (max-width: 600px) {
+    .ads_box_container{
+        grid-template-columns: repeat(1,1fr);
+        width: 95%;
+        margin: 10px 10px;
+    }
+    .header_container{
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        flex-direction: column;
+        width: 100vw;
+        margin-bottom: 30px;
+        margin-left: 0px;
+    }
+}
