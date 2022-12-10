@@ -8,12 +8,10 @@ const createAd = async (req, res) => {
         const company = await companyModel.findOne({ name: req.body.companyName });
         if (company) req.body.companyId = company._id;
         else {
-            const newCompany = await companyModel.create({ name: req.body.companyName, url: req.body.companyName + '.com' });
-            console.log(newCompany);
+            const newCompany = await companyModel.create({ name: req.body.companyName, url: req.body.url ? req.body.url : req.body.companyName.split(" ").join("").trim() + '.com' });
             req.body.companyId = newCompany._id;
         }
         const product = await adsModel.create(req.body);
-        console.log(product);
         res.status(201).send({ status: true, data: product });
     } catch (error) {
         const err = handleErrors(error);
@@ -47,14 +45,10 @@ const getAllProduct = async (req, res) => {
             ]);
 
         } else {
-            //todo search in all fields except companyName
-            const getAds = await adsModel.aggregate([
+
+            result = await adsModel.aggregate([
                 {
-                    $match: { $text: { $search: req.query.input } }
-                },
-                {
-                    $lookup:
-                    {
+                    $lookup: {
                         from: "companies",
                         localField: "companyId",
                         foreignField: "_id",
@@ -63,30 +57,23 @@ const getAllProduct = async (req, res) => {
                 },
                 {
                     $unwind: "$company"
-                }
-
-            ]);
-
-            //todo search by companyName
-            const getCompany = await adsModel.aggregate([
+                },
                 {
-                    $lookup:
-                    {
-                        from: "companies",
-                        localField: "companyId",
-                        foreignField: "_id",
-                        pipeline: [{
-                            $match: { name: req.query.input }
-                        }],
-                        as: "company"
+                    $match: {
+                        $or: [
+                            { "company.name": { $regex: req.query.input, $options: "i" } },
+                            { "primaryText": { $regex: req.query.input, $options: "i" } },
+                            { "headline": { $regex: req.query.input, $options: "i" } },
+                            { "description": { $regex: req.query.input, $options: "i" } },
+                        ]
                     }
                 },
                 {
-                    $unwind: "$company"
+                    $sort: { createdAt: -1 }
+
                 }
             ])
 
-            result = [...getAds, ...getCompany];
         }
 
         res.status(200).send({ status: true, data: result });
